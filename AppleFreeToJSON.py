@@ -119,7 +119,8 @@ for position in soup.find_all('li'):
 
 # Write response to JSON file
 today = str(datetime.datetime.now().date())
-postingsFile = today + '.AppleFree.json'
+time = str(datetime.datetime.now().time())
+postingsFile = today + time + '.AppleFree.json'
 
 with open(postingsFile, 'w') as outfile:
     json.dump(response, outfile, sort_keys=True, indent=2)
