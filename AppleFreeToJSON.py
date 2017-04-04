@@ -7,6 +7,8 @@ import re
 
 # Create an empty response array
 response = []
+allDesc = []
+
 
 # global variables
 
@@ -117,6 +119,8 @@ for position in soup.find_all('li'):
              'Number of Reviews (All Time)': numOfAllRatings,
              'In App Purchases': inAppPurchases})
 
+        allDesc.append({'The': desc})
+
 # Write response to JSON file
 today = str(datetime.datetime.now().date())
 time = str(datetime.datetime.now().time())
@@ -126,3 +130,11 @@ with open(postingsFile, 'w') as outfile:
     json.dump(response, outfile, sort_keys=True, indent=2)
 
 outfile.close()
+
+descFile = today + time + '.AppleFreeDescriptions.txt'
+
+# with open(descFile, 'w') as outfile:
+#     json.dump(allDesc, outfile, sort_keys=True, indent=2)
+#
+# outfile.close()
+
