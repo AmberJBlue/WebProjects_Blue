@@ -13,7 +13,7 @@ page = requests.get(url)
 soup = BeautifulSoup(page.content, 'lxml')
 
 # # Parse url
-for position in soup.find_all('li'):  # 17 'none'
+for position in soup.find_all('li'):
     if position.find('strong') != None:
         rank = position.find('strong').string.replace(".", "")
         name = position.find('h3').string
@@ -97,21 +97,25 @@ for position in soup.find_all('li'):  # 17 'none'
                         inAppPurchases = 'Information Not Available'
 
                     price = left.find('div', itemprop="price").string
+
+                    response.append(
+                        {'Rank': rank, 'Name': name, 'Category': cat, 'Description': desc, 'Release': release,
+                         'Version': version,
+                         'Compatibility': compatibility, 'Size': size, 'Age Restriction': ageLimit, 'Seller': seller,
+                         'Rating of Current Version': currentRating,
+                         'Number of Reviews (Current Versions) ': numOfCurrentRatings, 'Overall Rating': ovRating,
+                         'Number of Reviews (All Time)': numOfAllRatings,
+                         'In App Purchases': inAppPurchases, 'Price': price})
+
                 except AttributeError:
                     print('Information Not Available')
         except AttributeError:
             print('Information Not Available')
 
             # Make changes to response
-            allDesc.append({'The': desc})
-            response.append(
-                {'Rank': rank, 'Name': name, 'Category': cat, 'Description': desc, 'Release': release, 'Version': version,
-                 'Compatibility': compatibility, 'Size': size, 'Age Restriction': ageLimit, 'Seller': seller,
-                 'Rating of Current Version': currentRating,
-                 'Number of Reviews (Current Versions) ': numOfCurrentRatings, 'Overall Rating': ovRating,
-                 'Number of Reviews (All Time)': numOfAllRatings,
-                 'In App Purchases': inAppPurchases, 'Price': price})
 
+
+            allDesc.append({'The': desc})
 
             # price = position.find('em', class_='product__price').text.strip()
 
@@ -125,7 +129,7 @@ postingsFile = today + time + '.ApplePaid.json'
 with open(postingsFile, 'w') as outfile:
     json.dump(response, outfile, sort_keys=True, indent=2)
 
-outfile.close()
+# outfile.close()
 
 
 # descFile = today + time + '.ApplePaidDescriptions.txt'
